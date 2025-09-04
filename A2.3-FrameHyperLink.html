@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kirk Nicolas E. Joaquin - Personal Website</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", "Century Gothic", Arial, sans-serif;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        grid-template-rows: 100px 1fr;
+        grid-template-areas:
+          "banner banner"
+          "nav content";
+        background: #f4f6f9;
+        color: #222;
+      }
+
+      .banner-frame {
+        grid-area: banner;
+        background: #1f2937;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 2px solid #333;
+        overflow: hidden; /* prevents stretching */
+      }
+
+      .banner-frame .banner-img {
+        max-width: 1920px;
+        max-height: 150px;
+        width: 100%;
+        height: auto;
+      }
+
+      .nav-frame {
+        grid-area: nav;
+        background-color: #1f2937;
+        color: #fff;
+        border-right: 2px solid #333;
+        padding: 20px;
+      }
+
+      .content-frame {
+        grid-area: content;
+        padding: 30px;
+        overflow-y: auto;
+        background-color: white;
+      }
+
+      .nav-frame h2 {
+        margin-bottom: 20px;
+        color: #fff;
+        border-bottom: 2px solid #cbd5e1;
+        padding-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .nav-frame ul {
+        list-style: none;
+      }
+
+      .nav-frame li {
+        margin-bottom: 10px;
+      }
+
+      .nav-frame a {
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: #cbd5e1;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+      }
+
+      .nav-frame a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #93c5fd;
+        border-left: 4px solid #93c5fd;
+        transform: translateX(5px);
+      }
+
+      .nav-frame a.active {
+        background-color: rgba(147, 197, 253, 0.2);
+        color: #93c5fd;
+        border-left: 4px solid #93c5fd;
+      }
+
+      /* Content Styles */
+      .page-content {
+        display: none;
+      }
+
+      .page-content.active {
+        display: block;
+      }
+
+      .page-content h1 {
+        color: #222;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #e5e7eb;
+        padding-bottom: 10px;
+      }
+
+      .page-content h2 {
+        color: #222;
+        margin: 20px 0 10px 0;
+      }
+
+      .page-content h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 4px;
+        color: #222;
+      }
+
+      .page-content p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .page-content ul {
+        padding-left: 20px;
+      }
+
+      .page-content li {
+        margin: 4px 0;
+      }
+
+      /* Resume-specific styles */
+      .resume-header {
+        background: #1f2937;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 1px solid #e5e7eb;
+      }
+
+      .profile-section {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+      .profile-image img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .profile-image {
+        flex-shrink: 0;
+      }
+
+      .profile-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #1f2937;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 600;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-info h1 {
+        font-size: 28px;
+        margin: 0 0 5px 0;
+        border: none;
+        color: #a8ccfe;
+      }
+
+      .profile-info h2 {
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0 0 15px 0;
+        color: #bac6df;
+      }
+
+      .contact-info p {
+        margin: 6px 0;
+        font-size: 14px;
+      }
+
+      .contact-info a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+
+      .contact-info a:hover {
+        text-decoration: underline;
+      }
+
+      .muted {
+        color: #6b7280;
+      }
+
+      section {
+        margin-bottom: 24px;
+      }
+
+      /* Schedule Table Styles */
+      .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .schedule-table th,
+      .schedule-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+
+      .schedule-table th {
+        background-color: #1f2937;
+        color: white;
+        font-weight: bold;
+      }
+
+      .schedule-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .schedule-table tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      @media (max-width: 800px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto 1fr;
+          grid-template-areas:
+            "banner"
+            "nav"
+            "content";
+        }
+
+        .nav-frame {
+          padding: 15px;
+        }
+
+        .profile-section {
+          flex-direction: column;
+          text-align: center;
+          gap: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner Frame -->
+    <div class="banner-frame">
+      <img
+        src="images/Kbanner.png"
+        alt="Kirk Joaquin Banner"
+        class="banner-img"
+      />
+    </div>
+
+    <!-- Navigation Frame -->
+    <div class="nav-frame">
+      <h2>Table of Contents</h2>
+      <ul>
+        <li>
+          <a href="#" onclick="showPage('home')" class="nav-link active"
+            >🏠 Home</a
+          >
+        </li>
+        <li>
+          <a href="#" onclick="showPage('resume')" class="nav-link"
+            >📄 Resume</a
+          >
+        </li>
+        <li>
+          <a href="#" onclick="showPage('schedule')" class="nav-link"
+            >📅 Schedule</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content Frame -->
+    <div class="content-frame">
+      <!-- Home Page Content -->
+      <div id="home" class="page-content active">
+        <h1>Welcome to My Personal Website</h1>
+        <p>
+          Hello and welcome! This website demonstrates the use of frames to
+          create a structured web presentation with multiple sections.
+        </p>
+
+        <h2>About This Site</h2>
+        <p>
+          This website is built using modern web technologies to simulate the
+          frame-based layout that was popular in earlier web development. The
+          layout includes:
+        </p>
+        <ul>
+          <li>
+            <strong>Banner Frame:</strong> Contains the site title and branding
+          </li>
+          <li>
+            <strong>Navigation Frame:</strong> Houses the table of contents with
+            links
+          </li>
+          <li>
+            <strong>Content Frame:</strong> Displays the main content based on
+            navigation selection
+          </li>
+        </ul>
+
+        <h2>Navigation</h2>
+        <p>
+          Use the navigation menu on the left to explore different sections:
+        </p>
+        <ul>
+          <li>
+            <strong>Home:</strong> This welcome page with site information
+          </li>
+          <li>
+            <strong>Resume:</strong> Professional experience and qualifications
+          </li>
+          <li>
+            <strong>Schedule:</strong> Weekly schedule displayed in tabular
+            format
+          </li>
+        </ul>
+
+        <h2>Features</h2>
+        <p>This presentation demonstrates:</p>
+        <ul>
+          <li>Frame-like layout using CSS Grid</li>
+          <li>Interactive navigation with JavaScript</li>
+          <li>Responsive design principles</li>
+          <li>Modern styling with hover effects</li>
+          <li>Tabular data presentation</li>
+        </ul>
+      </div>
+
+      <!-- Resume Page Content -->
+      <div id="resume" class="page-content">
+        <div class="resume-header">
+          <div class="profile-section">
+            <div class="profile-image">
+              <img
+                src="images/KNJ-profile.jpg"
+                alt="Kirk Nicolas E. Joaquin Profile Photo"
+              />
+              <!-- Fallback placeholder (remove the line above and uncomment below if no image) -->
+              <!-- <div class="profile-placeholder">KNJ</div> -->
+            </div>
+            <div class="profile-info">
+              <h1>Kirk Nicolas E. Joaquin</h1>
+              <h2>Computer Engineering Student</h2>
+              <div class="contact-info">
+                <p>
+                  <a href="mailto:s.kirknicolas.joaquin@sscr.edu"
+                    >s.kirknicolas.joaquin@sscr.edu</a
+                  >
+                </p>
+                <p><a href="tel:+639762319501">+63 976 231 9501</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="about">
+          <h3>About Me</h3>
+          <p>
+            Student of Computer Engineering who enjoys software and frontend
+            development. Gained familiarity with Java and C++ by completing
+            programming courses and developing small web projects using HTML,
+            CSS, and JavaScript. Experienced in mobile and web app development,
+            curious about user-centered design and solving user problems.
+          </p>
+        </section>
+
+        <section class="skills">
+          <h3>Skills</h3>
+          <ul>
+            <li>Java, C++, HTML/CSS, JavaScript</li>
+            <li>Arduino & MIT App Development</li>
+            <li>Web & Mobile Projects</li>
+            <li>Hardware-Software Integration</li>
+            <li>Problem-Solving</li>
+            <li>Teamwork & Collaboration</li>
+          </ul>
+        </section>
+
+        <section class="education">
+          <h3>Education</h3>
+          <p>
+            <strong>Bachelor of Science in Computer Engineering</strong><br />
+            San Sebastian Recoletos de Cavite<br />
+            <span class="muted">2022 – Present</span>
+          </p>
+
+          <p>
+            <strong>STEM Strand</strong><br />
+            Cavite National High School - Senior High<br />
+            <span class="muted">2020 – 2022</span>
+          </p>
+        </section>
+
+        <section class="academic">
+          <h3>Academic Experience</h3>
+          <ul>
+            <li>
+              Established knowledge and experience in hardware and software
+              through courses and projects.
+            </li>
+            <li>
+              Obtained programming capability in Java, C++, and HTML through
+              OOP, Embedded Systems, and Software Design.
+            </li>
+            <li>
+              Created mobile applications for device control using MIT App
+              Inventor.
+            </li>
+            <li>
+              Developed web-based projects using HTML, CSS, and JavaScript.
+            </li>
+            <li>
+              Implemented hardware-software integration using Arduino, sensors,
+              and microcontrollers.
+            </li>
+            <li>
+              Strengthened skills in debugging, logic, and problem-solving.
+            </li>
+          </ul>
+        </section>
+
+        <section class="awards">
+          <h3>Awards & Recognition</h3>
+          <p>
+            <strong>Dean's Lister</strong><br />
+            San Sebastian Recoletos de Cavite<br />
+            <span class="muted"
+              >Recognized for academic excellence in selected semesters: 2nd
+              Year and 3rd Year, 2nd Semester.</span
+            >
+          </p>
+        </section>
+      </div>
+
+      <!-- Schedule Page Content -->
+      <div id="schedule" class="page-content">
+        <h1>Weekly Schedule</h1>
+        <p>
+          Below is my weekly schedule displayed in tabular format, replacing the
+          previous preformatted text version:
+        </p>
+
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>9:00 AM</strong></td>
+              <td>Computer Architecture</td>
+              <td>Programming Lab</td>
+              <td>Mathematics</td>
+              <td>Embedded Systems</td>
+              <td>Project Work</td>
+              <td>Personal Projects</td>
+              <td>Rest</td>
+            </tr>
+            <tr>
+              <td><strong>10:00 AM</strong></td>
+              <td>Software Design</td>
+              <td>Java Programming</td>
+              <td>Digital Logic</td>
+              <td>C++ Development</td>
+              <td>Testing & Debug</td>
+              <td>Learning</td>
+              <td>Exercise</td>
+            </tr>
+            <tr>
+              <td><strong>11:00 AM</strong></td>
+              <td>Hardware Lab</td>
+              <td>Web Development</td>
+              <td>Circuit Analysis</td>
+              <td>Mobile App Dev</td>
+              <td>Documentation</td>
+              <td>Side Projects</td>
+              <td>Family Time</td>
+            </tr>
+            <tr>
+              <td><strong>12:00 PM</strong></td>
+              <td
+                colspan="7"
+                style="text-align: center; background-color: #f0f8ff"
+              >
+                <em>Lunch Break</em>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>1:00 PM</strong></td>
+              <td>Arduino Projects</td>
+              <td>MIT App Inventor</td>
+              <td>Database Systems</td>
+              <td>UI/UX Design</td>
+              <td>Code Review</td>
+              <td>Portfolio Update</td>
+              <td>Reading</td>
+            </tr>
+            <tr>
+              <td><strong>2:00 PM</strong></td>
+              <td>System Testing</td>
+              <td>Problem Solving</td>
+              <td>API Development</td>
+              <td>Frontend Work</td>
+              <td>Team Projects</td>
+              <td>Open Source</td>
+              <td>Hobbies</td>
+            </tr>
+            <tr>
+              <td><strong>3:00 PM</strong></td>
+              <td>Study Time</td>
+              <td>Research</td>
+              <td>Optimization</td>
+              <td>Debugging</td>
+              <td>Group Study</td>
+              <td>Networking</td>
+              <td>Relaxation</td>
+            </tr>
+            <tr>
+              <td><strong>4:00 PM</strong></td>
+              <td>Self Learning</td>
+              <td>Tutoring</td>
+              <td>Code Practice</td>
+              <td>Performance Tuning</td>
+              <td>Assignment</td>
+              <td>Social Media</td>
+              <td>Planning Week</td>
+            </tr>
+            <tr>
+              <td><strong>5:00 PM</strong></td>
+              <td
+                colspan="5"
+                style="text-align: center; background-color: #ffe4e1"
+              >
+                <em>End of Study Day</em>
+              </td>
+              <td>Free Time</td>
+              <td>Preparation</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Schedule Notes</h2>
+        <ul>
+          <li>
+            <strong>Flexible Timing:</strong> Some activities may shift based on
+            class requirements
+          </li>
+          <li>
+            <strong>Break Times:</strong> 15-minute breaks are taken between
+            major study blocks
+          </li>
+          <li>
+            <strong>Weekend Focus:</strong> Personal development and work-life
+            balance
+          </li>
+          <li>
+            <strong>Continuous Learning:</strong> Dedicated time for skill
+            development throughout the week
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll(".page-content");
+        pages.forEach((page) => page.classList.remove("active"));
+
+        // Show selected page
+        document.getElementById(pageId).classList.add("active");
+
+        // Update navigation active state
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => link.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set home as active by default
+        document.getElementById("home").classList.add("active");
+      });
+    </script>
+  </body>
+</html>
